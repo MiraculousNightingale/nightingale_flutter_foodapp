@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nightingale_flutter_foodapp/models/category.dart';
+import 'package:nightingale_flutter_foodapp/providers/meal_filters_provider.dart';
 
 import '../models/meal.dart';
 import '../widgets/meal_list_item.dart';
 
-class CategoryMealsScreen extends StatefulWidget {
-  static const String routeName = '/category-meals';
-
-  final List<Meal> availableMeals;
+class CategoryMealsScreen extends ConsumerWidget {
   final Category category;
 
   const CategoryMealsScreen({
     Key? key,
-    required this.availableMeals,
     required this.category,
   }) : super(key: key);
 
   @override
-  State<CategoryMealsScreen> createState() => _CategoryMealsScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String categoryId = category.id;
+    final String categoryTitle = category.title;
+    final categoryMeals = ref
+        .watch(filteredMealsProvider)
+        .where((meal) => meal.categories.contains(categoryId))
+        .toList();
 
-class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
-  // final String categoryId;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(categoryTitle),
+      ),
+      body: _buildListOfMealsOrEmpty(context, categoryMeals),
+    );
+  }
 
   Widget _buildListOfMealsOrEmpty(
       BuildContext context, List<Meal> categoryMeals) {
@@ -43,21 +51,6 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
         );
       },
       itemCount: categoryMeals.length,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final String categoryId = widget.category.id;
-    final String categoryTitle = widget.category.title;
-    final List<Meal> categoryMeals = widget.availableMeals
-        .where((element) => element.categories.contains(categoryId))
-        .toList();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(categoryTitle),
-      ),
-      body: _buildListOfMealsOrEmpty(context, categoryMeals),
     );
   }
 }

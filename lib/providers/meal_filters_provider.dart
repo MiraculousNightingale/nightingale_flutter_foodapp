@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nightingale_flutter_foodapp/models/meal_filter.dart';
+import 'package:nightingale_flutter_foodapp/providers/meals_provider.dart';
 
 class MealFiltersNotifier
     extends StateNotifier<Map<MealFilterType, MealFilter>> {
@@ -46,3 +47,12 @@ final mealFiltersProvider =
     StateNotifierProvider<MealFiltersNotifier, Map<MealFilterType, MealFilter>>(
   (ref) => MealFiltersNotifier(),
 );
+
+final filteredMealsProvider = Provider((ref) {
+  final meals = ref.watch(mealsProvider);
+  final filters =
+      ref.watch(mealFiltersProvider).values.where((filter) => filter.isEnabled);
+  return meals
+      .where((meal) => filters.every((filter) => filter.check(meal)))
+      .toList();
+});

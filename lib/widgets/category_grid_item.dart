@@ -12,11 +12,10 @@ class CategoryGridItem extends StatelessWidget {
   final Category category;
 
   void _selectCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(
-      CategoryMealsScreen.routeName,
-      arguments: {
-        'category': category,
-      },
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => CategoryMealsScreen(category: category),
+      ),
     );
   }
 

@@ -3,10 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/meal.dart';
 import '../dummy_data.dart';
 
+// state should be wrapped in AsyncValue to handle async read/write
 class MealsNotifier extends StateNotifier<List<Meal>> {
-  MealsNotifier() : super([]);
+  MealsNotifier() : super([]) {
+    fetchMeals();
+  }
 
   void fetchMeals() {
+    print('fetched some meals');
     state = [...DUMMY_MEALS];
   }
 

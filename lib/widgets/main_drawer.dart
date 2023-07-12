@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:nightingale_flutter_foodapp/screens/tabs_screen.dart';
 
 import '../screens/filters_screen.dart';
 
@@ -52,10 +53,16 @@ class MainDrawer extends StatelessWidget {
             height: 20,
           ),
           _buildListTile(context, 'Meals', Icons.restaurant, () {
-            Navigator.of(context).pushReplacementNamed('/');
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const TabsScreen(),
+              ),
+            );
           }),
           _buildListTile(context, 'Settings', Icons.settings, () {
-            Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const FiltersScreen(),
+            ));
           }),
         ],
       ),

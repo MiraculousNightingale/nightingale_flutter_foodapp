@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nightingale_flutter_foodapp/models/meal.dart';
-import 'package:nightingale_flutter_foodapp/screens/meal_detail_screen.dart';
+import 'package:nightingale_flutter_foodapp/screens/meal_details_screen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class MealListItem extends StatelessWidget {
@@ -12,8 +12,13 @@ class MealListItem extends StatelessWidget {
   final Meal meal;
 
   void _selectMeal(BuildContext context) {
-    Navigator.of(context)
-        .pushNamed(MealDetailScreen.routeName, arguments: meal.id);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => MealDetailsScreen(
+          meal: meal,
+        ),
+      ),
+    );
   }
 
   @override

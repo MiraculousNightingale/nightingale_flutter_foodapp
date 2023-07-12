@@ -5,14 +5,7 @@ import 'package:nightingale_flutter_foodapp/providers/meal_filters_provider.dart
 import 'package:nightingale_flutter_foodapp/widgets/main_drawer.dart';
 
 class FiltersScreen extends ConsumerWidget {
-  static const routeName = '/filters';
-
-  final void Function(Map<String, bool> filterData) saveFilters;
-  final Map<String, bool> currentFilters;
-
-  const FiltersScreen(
-      {Key? key, required this.saveFilters, required this.currentFilters})
-      : super(key: key);
+  const FiltersScreen({Key? key}) : super(key: key);
 
   _buildSwitchListTile(
     BuildContext context,
@@ -44,21 +37,6 @@ class FiltersScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              print('save is not used with riverpod');
-              // final Map<String, bool> selectedFilters = {
-              //   'gluten': _glutenFree,
-              //   'lactose': _lactoseFree,
-              //   'vegan': _vegan,
-              //   'vegetarian': _vegetarian,
-              // };
-              // saveFilters(selectedFilters);
-            },
-            icon: const Icon(Icons.save),
-          ),
-        ],
       ),
       drawer: const MainDrawer(),
       body: Column(
