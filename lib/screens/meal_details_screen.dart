@@ -13,11 +13,15 @@ class MealDetailsScreen extends ConsumerWidget {
   final Meal meal;
 
   Widget _buildSectionTitle(BuildContext context, String text) {
+    final theme = Theme.of(context);
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Text(
         text,
-        style: Theme.of(context).textTheme.titleMedium,
+        style: theme.textTheme.titleMedium!.copyWith(
+          fontWeight: FontWeight.bold,
+          color: theme.colorScheme.onBackground,
+        ),
       ),
     );
   }
@@ -29,10 +33,9 @@ class MealDetailsScreen extends ConsumerWidget {
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.all(10),
-      height: 200,
-      width: 300,
+      width: double.infinity,
       child: child,
     );
   }
@@ -45,45 +48,57 @@ class MealDetailsScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(
-                meal.imageUrl,
-                fit: BoxFit.cover,
+            Hero(
+              tag: meal.id,
+              child: SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: Image.network(
+                  meal.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             _buildSectionTitle(context, 'Ingredients'),
             _buildContainer(
-              child: ListView.builder(
-                itemBuilder: (context, index) => Card(
-                  color: Theme.of(context).primaryColor,
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Text(meal.ingredients[index]),
-                  ),
-                ),
-                itemCount: meal.ingredients.length,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (final ingredient in meal.ingredients)
+                    Card(
+                      color: Theme.of(context).colorScheme.primary,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
+                        ),
+                        child: Text(ingredient),
+                      ),
+                    ),
+                ],
               ),
             ),
             _buildSectionTitle(context, 'Steps'),
             _buildContainer(
-              child: ListView.builder(
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    ListTile(
-                      leading: CircleAvatar(
-                        child: Text('# ${index + 1}'),
-                      ),
-                      title: Text(meal.steps[index]),
+              child: Column(
+                children: [
+                  for (var i = 0; i < meal.steps.length; i++)
+                    Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            child: Text('# ${i + 1}'),
+                          ),
+                          title: Text(meal.steps[i]),
+                        ),
+                        // don't add divider after last element
+                        if (i < meal.steps.length - 1)
+                          const Divider(
+                            color: Colors.black,
+                          ),
+                      ],
                     ),
-                    const Divider(
-                      color: Colors.black,
-                    ),
-                  ],
-                ),
-                itemCount: meal.steps.length,
+                ],
               ),
             ),
           ],

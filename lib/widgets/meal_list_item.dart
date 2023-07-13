@@ -24,25 +24,28 @@ class MealListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return InkWell(
-      onTap: () => _selectMeal(context),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        clipBehavior: Clip.hardEdge,
-        elevation: 4,
-        margin: const EdgeInsets.all(10),
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      clipBehavior: Clip.hardEdge,
+      elevation: 4,
+      margin: const EdgeInsets.all(10),
+      child: InkWell(
+        onTap: () => _selectMeal(context),
         child: Column(
           children: [
             Stack(
               children: [
-                FadeInImage(
-                  placeholder: MemoryImage(kTransparentImage),
-                  image: NetworkImage(meal.imageUrl),
-                  height: 250,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+                Hero(
+                  tag: meal.id,
+                  child: FadeInImage(
+                    placeholder: MemoryImage(kTransparentImage),
+                    image: NetworkImage(meal.imageUrl),
+                    height: 250,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Positioned(
                   bottom: 20,
