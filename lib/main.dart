@@ -22,40 +22,6 @@ class _MyAppState extends State<MyApp> {
       title: 'Food App',
       theme: ThemeConfig.theme,
       home: const TabsScreen(),
-      // TODO: Named routing, remove later.
-      // onGenerateRoute: (settings) {
-      //   final args = settings.arguments as Map;
-      //   final routes = <String, WidgetBuilder>{
-      //     CategoryMealsScreen.routeName: (context) => CategoryMealsScreen(
-      //           availableMeals: _availableMeals,
-      //           category: args['category'],
-      //         ),
-      //   };
-      //   if (routes[settings.name] == null) {
-      //     throw 'onGenerateRoute - called with unexisting route name.';
-      //   }
-      //   return MaterialPageRoute(
-      //     builder: (context) => routes[settings.name]!(context),
-      //   );
-      // },
-      // routes: {
-      //   '/': (context) => TabsScreen(
-      //         favouriteMeals: _favouriteMeals,
-      //       ),
-      //   MealDetailScreen.routeName: (context) => MealDetailScreen(
-      //         isFavourite: _isMealFavourite,
-      //         toggleFavourite: _toggleFavourite,
-      //       ),
-      //   FiltersScreen.routeName: (context) => FiltersScreen(
-      //         currentFilters: _filters,
-      //         saveFilters: _setFilters,
-      //       ),
-      // },
-      // onUnknownRoute: (settings) {
-      //   return MaterialPageRoute(
-      //     builder: (context) => const CategoriesScreen(),
-      //   );
-      // },
     );
   }
 }

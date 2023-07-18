@@ -19,7 +19,8 @@ class MealsNotifier extends StateNotifier<List<Meal>> {
   }
 
   void removeMeal(String mealId) {
-    state = state.where((element) => element.id != mealId).toList();
+    // state = state.where((element) => element.id != mealId).toList();
+    state = [...state.where((element) => element.id != mealId)];
   }
 }
 
