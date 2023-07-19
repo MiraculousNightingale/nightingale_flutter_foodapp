@@ -2,12 +2,14 @@
 import 'package:flutter/material.dart';
 
 enum Complexity {
+  none,
   simple,
   challenging,
   hard,
 }
 
 enum Affordability {
+  none,
   affordable,
   pricey,
   luxurious,
@@ -44,6 +46,21 @@ class Meal {
     required this.isVegan,
     required this.isVegetarian,
   });
+
+  Meal.empty()
+      : id = '',
+        categories = [],
+        title = '',
+        imageUrl = '',
+        ingredients = [],
+        steps = [],
+        duration = 0,
+        complexity = Complexity.none,
+        affordability = Affordability.none,
+        isGlutenFree = false,
+        isLactoseFree = false,
+        isVegan = false,
+        isVegetarian = false;
 
   String get capitalizedComplexity =>
       complexity.name.replaceRange(0, 1, complexity.name[0].toUpperCase());
