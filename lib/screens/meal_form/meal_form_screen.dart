@@ -71,7 +71,7 @@ class MealFormScreen extends StatelessWidget {
                         title: 'Ingredients',
                         children: [
                           for (final ingredient in meal.ingredients) ...[
-                            ExpandableFormItem(text: ingredient),
+                            ExpandableFormItem(initialValue: ingredient),
                             const SizedBox(
                               height: 10,
                             ),
@@ -103,7 +103,7 @@ class MealFormScreen extends StatelessWidget {
                         title: 'Steps',
                         children: [
                           for (final step in meal.steps) ...[
-                            ExpandableFormItem(text: step),
+                            ExpandableFormItem(initialValue: step),
                             const SizedBox(
                               height: 10,
                             ),

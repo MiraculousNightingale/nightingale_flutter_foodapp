@@ -4,22 +4,25 @@ import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_it
 
 /// Designed for String arrays(ingredients, steps) in Meal class.
 class MealFormExpandableScreen extends StatelessWidget {
-  MealFormExpandableScreen({
-    super.key,
-    required this.heroTag,
-    required this.title,
-    required List<String> initialValue,
-  }) : editableItems = [...initialValue];
+  MealFormExpandableScreen(
+      {super.key,
+      required this.heroTag,
+      required this.title,
+      required List<String> initialValue,
+      required this.onPop})
+      : editableItems = [...initialValue];
 
   final Object heroTag;
   final String title;
   final List<String> editableItems;
+  final void Function(List<String> currentValues) onPop;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async {
+        onPop(editableItems);
         return true;
       },
       child: Scaffold(
@@ -48,8 +51,8 @@ class MealFormExpandableScreen extends StatelessWidget {
                     print('${editableItems[i]} dismissed');
                   },
                   child: ExpandableFormItem(
-                    text: editableItems[i],
-                    editable: true,
+                    initialValue: editableItems[i],
+                    controller: TextEditingController(),
                   ),
                 ),
             ],
