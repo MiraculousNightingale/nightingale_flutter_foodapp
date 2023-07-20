@@ -58,9 +58,10 @@ class MealFormScreen extends StatelessWidget {
                           builder: (context) => MealFormExpandableScreen(
                             heroTag: ingredientsHeroTag,
                             title: 'Ingredients',
-                            initialValue: meal.ingredients,
+                            initialValues: meal.ingredients,
                             onPop: (currentValues) {
                               //TODO: save into Meal
+                              print(currentValues.toString());
                             },
                           ),
                         ),
@@ -93,9 +94,10 @@ class MealFormScreen extends StatelessWidget {
                           builder: (context) => MealFormExpandableScreen(
                             heroTag: stepsHeroTag,
                             title: 'Steps',
-                            initialValue: meal.steps,
+                            initialValues: meal.steps,
                             onPop: (currentValues) {
-                              //TODO: save into Meal
+                              // TODO: save into Meal
+                              print(currentValues.toString());
                             },
                           ),
                         ),

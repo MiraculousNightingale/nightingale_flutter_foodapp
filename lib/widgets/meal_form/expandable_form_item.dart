@@ -4,11 +4,13 @@ class ExpandableFormItem extends StatefulWidget {
   ExpandableFormItem({
     super.key,
     this.dismissibleKey,
+    this.onDismissed,
     required this.initialValue,
     TextEditingController? controller,
   })  : isEditable = controller != null,
         controller = controller ?? TextEditingController();
 
+  final void Function(DismissDirection)? onDismissed;
   final Key? dismissibleKey;
   final TextEditingController controller;
   final String initialValue;
@@ -93,6 +95,8 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
         ),
         onDismissed: (direction) {
           print('${widget.controller.text} dismissed');
+          // TODO: assign onDismissed instead of calling it anonymously
+          if (widget.onDismissed != null) widget.onDismissed!(direction);
         },
         child: expandableFormItem,
       );

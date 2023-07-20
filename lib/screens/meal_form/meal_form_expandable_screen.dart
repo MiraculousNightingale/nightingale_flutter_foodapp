@@ -3,19 +3,37 @@ import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_co
 import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_item.dart';
 
 /// Designed for String arrays(ingredients, steps) in Meal class.
-class MealFormExpandableScreen extends StatelessWidget {
+class MealFormExpandableScreen extends StatefulWidget {
   MealFormExpandableScreen(
       {super.key,
       required this.heroTag,
       required this.title,
-      required List<String> initialValue,
+      required List<String> initialValues,
       required this.onPop})
-      : editableItems = [...initialValue];
+      : initialValues = [...initialValues];
 
   final Object heroTag;
   final String title;
-  final List<String> editableItems;
+  final List<String> initialValues;
   final void Function(List<String> currentValues) onPop;
+
+  @override
+  State<MealFormExpandableScreen> createState() =>
+      _MealFormExpandableScreenState();
+}
+
+class _MealFormExpandableScreenState extends State<MealFormExpandableScreen> {
+  late final List<TextEditingController> controllers;
+
+  @override
+  void initState() {
+    super.initState();
+    controllers = [
+      for (final value in widget.initialValues) TextEditingController(),
+    ];
+  }
+
+  List<String> get currentValues => [...controllers.map((e) => e.text)];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +42,7 @@ class MealFormExpandableScreen extends StatelessWidget {
       onWillPop: () async {
         // It's expected that editableItems will be passed into a Meal
         // and then saved with the use of notifier in outside widget.
-        onPop(editableItems);
+        widget.onPop(currentValues);
         return true;
       },
       child: Scaffold(
@@ -38,15 +56,15 @@ class MealFormExpandableScreen extends StatelessWidget {
           ],
         ),
         body: Hero(
-          tag: heroTag,
+          tag: widget.heroTag,
           child: ExpandableFormContainer(
-            title: title,
+            title: widget.title,
             children: [
-              for (var i = 0; i < editableItems.length; i++)
+              for (var i = 0; i < controllers.length; i++)
                 ExpandableFormItem(
                   dismissibleKey: ValueKey(i),
-                  initialValue: editableItems[i],
-                  controller: TextEditingController(), // TODO: temporary
+                  initialValue: widget.initialValues[i],
+                  controller: controllers[i],
                 ),
             ],
           ),
