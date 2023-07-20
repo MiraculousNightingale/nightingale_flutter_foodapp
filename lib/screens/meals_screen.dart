@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nightingale_flutter_foodapp/providers/meals_provider.dart';
-import 'package:nightingale_flutter_foodapp/screens/meal_form_screen.dart';
+import 'package:nightingale_flutter_foodapp/screens/meal_form/meal_form_screen.dart';
 
 import '../models/meal.dart';
 import '../widgets/meal_management_list_item.dart';
