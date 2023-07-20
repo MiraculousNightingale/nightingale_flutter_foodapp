@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class ExpandableFormItem extends StatefulWidget {
   ExpandableFormItem({
     super.key,
+    this.dismissibleKey,
     required this.initialValue,
     TextEditingController? controller,
   })  : isEditable = controller != null,
         controller = controller ?? TextEditingController();
 
+  final Key? dismissibleKey;
   final TextEditingController controller;
   final String initialValue;
   final bool isEditable;
@@ -31,7 +33,8 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Stack(
+
+    final expandableFormItem = Stack(
       alignment: Alignment.centerRight,
       children: [
         if (!isEditing)
@@ -78,5 +81,23 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
           ),
       ],
     );
+
+    // If dismissible key provided - wrap into Dismissible
+    if (widget.dismissibleKey != null) {
+      return Dismissible(
+        key: widget.dismissibleKey!,
+        direction:
+            isEditing ? DismissDirection.none : DismissDirection.endToStart,
+        background: Container(
+          color: theme.colorScheme.error,
+        ),
+        onDismissed: (direction) {
+          print('${widget.controller.text} dismissed');
+        },
+        child: expandableFormItem,
+      );
+    } else {
+      return expandableFormItem;
+    }
   }
 }

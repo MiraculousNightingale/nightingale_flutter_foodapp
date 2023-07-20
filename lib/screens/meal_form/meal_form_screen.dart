@@ -59,6 +59,9 @@ class MealFormScreen extends StatelessWidget {
                             heroTag: ingredientsHeroTag,
                             title: 'Ingredients',
                             initialValue: meal.ingredients,
+                            onPop: (currentValues) {
+                              //TODO: save into Meal
+                            },
                           ),
                         ),
                       );
@@ -91,6 +94,9 @@ class MealFormScreen extends StatelessWidget {
                             heroTag: stepsHeroTag,
                             title: 'Steps',
                             initialValue: meal.steps,
+                            onPop: (currentValues) {
+                              //TODO: save into Meal
+                            },
                           ),
                         ),
                       );

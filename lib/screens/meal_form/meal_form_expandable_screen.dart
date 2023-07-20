@@ -22,6 +22,8 @@ class MealFormExpandableScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async {
+        // It's expected that editableItems will be passed into a Meal
+        // and then saved with the use of notifier in outside widget.
         onPop(editableItems);
         return true;
       },
@@ -41,19 +43,10 @@ class MealFormExpandableScreen extends StatelessWidget {
             title: title,
             children: [
               for (var i = 0; i < editableItems.length; i++)
-                Dismissible(
-                  key: ValueKey(i),
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    color: theme.colorScheme.error,
-                  ),
-                  onDismissed: (direction) {
-                    print('${editableItems[i]} dismissed');
-                  },
-                  child: ExpandableFormItem(
-                    initialValue: editableItems[i],
-                    controller: TextEditingController(),
-                  ),
+                ExpandableFormItem(
+                  dismissibleKey: ValueKey(i),
+                  initialValue: editableItems[i],
+                  controller: TextEditingController(), // TODO: temporary
                 ),
             ],
           ),
