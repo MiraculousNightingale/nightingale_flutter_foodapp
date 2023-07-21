@@ -3,26 +3,29 @@ import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_co
 import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_item.dart';
 
 /// Designed for String arrays(ingredients, steps) in Meal class.
-class MealFormExpandableScreen extends StatefulWidget {
-  MealFormExpandableScreen(
-      {super.key,
-      required this.heroTag,
-      required this.title,
-      required List<String> initialValues,
-      required this.onPop})
-      : initialValues = [...initialValues];
+class MealFormStringExpandableScreen extends StatefulWidget {
+  MealFormStringExpandableScreen({
+    super.key,
+    required this.heroTag,
+    required this.appBarTitle,
+    required this.title,
+    required List<String> initialValues,
+    required this.onPop,
+  }) : initialValues = [...initialValues];
 
   final Object heroTag;
+  final String appBarTitle;
   final String title;
   final List<String> initialValues;
   final void Function(List<String> currentValues) onPop;
 
   @override
-  State<MealFormExpandableScreen> createState() =>
-      _MealFormExpandableScreenState();
+  State<MealFormStringExpandableScreen> createState() =>
+      _MealFormStringExpandableScreenState();
 }
 
-class _MealFormExpandableScreenState extends State<MealFormExpandableScreen> {
+class _MealFormStringExpandableScreenState
+    extends State<MealFormStringExpandableScreen> {
   late final List<TextEditingController> controllers;
 
   @override
@@ -56,7 +59,12 @@ class _MealFormExpandableScreenState extends State<MealFormExpandableScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Meal Form'),
+          title: Text(
+            widget.appBarTitle,
+            style: const TextStyle(
+              fontSize: 21,
+            ),
+          ),
           actions: [
             IconButton(
               onPressed: () {},
