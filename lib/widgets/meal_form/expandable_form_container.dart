@@ -36,22 +36,26 @@ class ExpandableFormContainer extends StatelessWidget {
       width: width,
       margin: margin,
       padding: padding,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              title,
-              style: theme.textTheme.titleLarge!.copyWith(
-                color: theme.colorScheme.onBackground,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            title,
+            style: theme.textTheme.titleLarge!.copyWith(
+              color: theme.colorScheme.onBackground,
             ),
-            const SizedBox(
-              height: 15,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                ...children,
+              ],
             ),
-            ...children,
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
