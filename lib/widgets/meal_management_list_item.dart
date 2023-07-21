@@ -41,7 +41,7 @@ class MealManagementListItem extends ConsumerWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MealFormScreen(meal: meal),
+                    builder: (context) => MealFormScreen(initialMeal: meal),
                   ),
                 );
               },

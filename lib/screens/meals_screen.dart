@@ -17,16 +17,17 @@ class MealsScreen extends ConsumerWidget {
         title: const Text('All Meals'),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => MealFormScreen(
-                      meal: Meal.empty(),
-                    ),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => MealFormScreen(
+                    initialMeal: Meal.empty(),
                   ),
-                );
-              },
-              icon: const Icon(Icons.add)),
+                ),
+              );
+            },
+            icon: const Icon(Icons.add),
+          ),
         ],
       ),
       body: ListView.builder(

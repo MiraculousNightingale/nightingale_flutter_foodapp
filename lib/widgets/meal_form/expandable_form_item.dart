@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
+// TODO: this widget should be separated on two widgets
+// One is Editable and other is NonEditable
+
+// TODO: Also passing controller and then assigning it a value is strange
+// but this can be solved after this widget is refactored into two separate ones.
 class ExpandableFormItem extends StatefulWidget {
-  ExpandableFormItem({
+  const ExpandableFormItem({
     super.key,
+    required this.initialValue,
     this.dismissibleKey,
     this.onDismissed,
-    required this.initialValue,
-    TextEditingController? controller,
-  })  : isEditable = controller != null,
-        controller = controller ?? TextEditingController();
+    this.controller,
+  }) : isEditable = controller != null;
 
   final void Function(DismissDirection)? onDismissed;
   final Key? dismissibleKey;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String initialValue;
   final bool isEditable;
 
@@ -23,14 +27,23 @@ class ExpandableFormItem extends StatefulWidget {
 class _ExpandableFormItemState extends State<ExpandableFormItem> {
   bool isEditing = false;
 
-  // final controller = TextEditingController();
   final focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    widget.controller.text = widget.initialValue;
+    if (widget.isEditable) {
+      widget.controller!.text = widget.initialValue;
+    }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  String get currentValue =>
+      widget.isEditable ? widget.controller!.text : widget.initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +56,7 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
           SizedBox(
             width: double.infinity,
             child: Text(
-              widget.controller.text,
+              currentValue,
               textAlign: TextAlign.center,
               style: theme.textTheme.titleMedium!.copyWith(
                 color: theme.colorScheme.onBackground,
@@ -94,14 +107,13 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
           color: theme.colorScheme.error,
         ),
         onDismissed: (direction) {
-          print('${widget.controller.text} dismissed');
+          print('$currentValue dismissed');
           // TODO: assign onDismissed instead of calling it anonymously
           if (widget.onDismissed != null) widget.onDismissed!(direction);
         },
         child: expandableFormItem,
       );
-    } else {
-      return expandableFormItem;
     }
+    return expandableFormItem;
   }
 }

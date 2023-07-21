@@ -33,6 +33,15 @@ class _MealFormExpandableScreenState extends State<MealFormExpandableScreen> {
     ];
   }
 
+  @override
+  void dispose() {
+    // widget.onPop(currentValues);
+    for (final controller in controllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   List<String> get currentValues => [...controllers.map((e) => e.text)];
 
   @override
