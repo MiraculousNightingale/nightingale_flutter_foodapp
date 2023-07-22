@@ -14,7 +14,7 @@ class ExpandableFormItem extends StatefulWidget {
     this.controller,
   }) : isEditable = controller != null;
 
-  final void Function(DismissDirection)? onDismissed;
+  final void Function(DismissDirection direction)? onDismissed;
   final Key? dismissibleKey;
   final TextEditingController? controller;
   final String initialValue;

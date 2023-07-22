@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nightingale_flutter_foodapp/dummy_data%20(1).dart';
+import 'package:nightingale_flutter_foodapp/models/category.dart';
 import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_container.dart';
 
 import '../../widgets/meal_form/expandable_form_item.dart';
@@ -29,11 +30,18 @@ class _MealFormCategoryExpandableState
     extends State<MealFormCategoryExpandable> {
   late final List<String> currentValues;
 
+  var isAdding = false;
+
   @override
   void initState() {
     super.initState();
     currentValues = [...widget.initialValues];
   }
+
+  List<Category> get unusedCategories => [
+        ...DUMMY_CATEGORIES
+            .where((element) => !currentValues.contains(element.id))
+      ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +50,7 @@ class _MealFormCategoryExpandableState
       onWillPop: () async {
         // It's expected that editableItems will be passed into a Meal
         // and then saved with the use of notifier in outside widget.
-        // widget.onPop(currentValues);
+        widget.onPop(currentValues);
         return true;
       },
       child: Scaffold(
@@ -55,7 +63,21 @@ class _MealFormCategoryExpandableState
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                if (unusedCategories.isNotEmpty) {
+                  setState(() {
+                    isAdding = true;
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content:
+                          Text('All possible categories already selected!'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                }
+              },
               icon: const Icon(Icons.add),
             ),
           ],
@@ -65,14 +87,42 @@ class _MealFormCategoryExpandableState
           child: ExpandableFormContainer(
             title: widget.title,
             children: [
+              if (isAdding)
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    items: [
+                      for (final category in unusedCategories)
+                        DropdownMenuItem(
+                          value: category.id,
+                          child: Text(
+                            category.title,
+                            style: theme.textTheme.titleMedium!.copyWith(
+                              color: theme.colorScheme.onBackground,
+                            ),
+                          ),
+                        ),
+                    ],
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          currentValues.insert(0, value);
+                          isAdding = false;
+                        });
+                      }
+                    },
+                  ),
+                ),
               for (final category in currentValues) ...[
                 ExpandableFormItem(
                   initialValue: DUMMY_CATEGORIES
                       .firstWhere((cat) => cat.id == category)
                       .title,
-                ),
-                const SizedBox(
-                  height: 15,
+                  dismissibleKey: ValueKey(category),
+                  onDismissed: (direction) {
+                    currentValues.remove(category);
+                  },
                 ),
               ],
             ],
