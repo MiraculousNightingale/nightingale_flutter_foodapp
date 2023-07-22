@@ -182,12 +182,8 @@ class _MealFormScreenState extends State<MealFormScreen> {
                           margin: const EdgeInsets.all(0),
                           title: 'Ingredients',
                           children: [
-                            for (final ingredient in meal.ingredients) ...[
+                            for (final ingredient in meal.ingredients)
                               ExpandableFormItem(initialValue: ingredient),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
                           ],
                         ),
                       ),
@@ -204,18 +200,11 @@ class _MealFormScreenState extends State<MealFormScreen> {
                           margin: const EdgeInsets.all(0),
                           title: 'Steps',
                           children: [
-                            for (final step in meal.steps) ...[
+                            for (final step in meal.steps)
                               ExpandableFormItem(initialValue: step),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 15,
                     ),
                     const SizedBox(
                       height: 25,
@@ -229,16 +218,12 @@ class _MealFormScreenState extends State<MealFormScreen> {
                           margin: const EdgeInsets.all(0),
                           title: 'Category',
                           children: [
-                            for (final category in meal.categories) ...[
+                            for (final category in meal.categories)
                               ExpandableFormItem(
                                 initialValue: DUMMY_CATEGORIES
                                     .firstWhere((cat) => cat.id == category)
                                     .title,
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                            ],
                           ],
                         ),
                       ),

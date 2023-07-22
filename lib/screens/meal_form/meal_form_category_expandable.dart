@@ -88,31 +88,28 @@ class _MealFormCategoryExpandableState
             title: widget.title,
             children: [
               if (isAdding)
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    items: [
-                      for (final category in unusedCategories)
-                        DropdownMenuItem(
-                          value: category.id,
-                          child: Text(
-                            category.title,
-                            style: theme.textTheme.titleMedium!.copyWith(
-                              color: theme.colorScheme.onBackground,
-                            ),
+                DropdownButton<String>(
+                  isExpanded: true,
+                  items: [
+                    for (final category in unusedCategories)
+                      DropdownMenuItem(
+                        value: category.id,
+                        child: Text(
+                          category.title,
+                          style: theme.textTheme.titleMedium!.copyWith(
+                            color: theme.colorScheme.onBackground,
                           ),
                         ),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) {
-                        setState(() {
-                          currentValues.insert(0, value);
-                          isAdding = false;
-                        });
-                      }
-                    },
-                  ),
+                      ),
+                  ],
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        currentValues.insert(0, value);
+                        isAdding = false;
+                      });
+                    }
+                  },
                 ),
               for (final category in currentValues) ...[
                 ExpandableFormItem(

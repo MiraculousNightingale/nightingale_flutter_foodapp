@@ -49,52 +49,57 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final expandableFormItem = Stack(
-      alignment: Alignment.centerRight,
-      children: [
-        if (!isEditing)
-          SizedBox(
-            width: double.infinity,
-            child: Text(
-              currentValue,
-              textAlign: TextAlign.center,
-              style: theme.textTheme.titleMedium!.copyWith(
-                color: theme.colorScheme.onBackground,
+    final expandableFormItem = Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          if (!isEditing)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 17),
+                child: Text(
+                  currentValue,
+                  style: theme.textTheme.titleMedium!.copyWith(
+                    color: theme.colorScheme.onBackground,
+                  ),
+                ),
               ),
             ),
-          ),
-        if (isEditing)
-          TextField(
-            controller: widget.controller,
-            focusNode: focusNode,
-            // Events to unfocus and stop editing the item
-            onTapOutside: (event) {
-              focusNode.unfocus();
-              setState(() {
-                isEditing = false;
-              });
-            },
-            onEditingComplete: () {
-              setState(() {
-                isEditing = false;
-              });
-            },
-            textAlign: TextAlign.center,
-            style: theme.textTheme.titleMedium!.copyWith(
-              color: theme.colorScheme.onBackground,
+          if (isEditing)
+            Expanded(
+              child: TextField(
+                controller: widget.controller,
+                focusNode: focusNode,
+                // Events to unfocus and stop editing the item
+                onTapOutside: (event) {
+                  focusNode.unfocus();
+                  setState(() {
+                    isEditing = false;
+                  });
+                },
+                onEditingComplete: () {
+                  setState(() {
+                    isEditing = false;
+                  });
+                },
+                textAlign: TextAlign.center,
+                style: theme.textTheme.titleMedium!.copyWith(
+                  color: theme.colorScheme.onBackground,
+                ),
+              ),
             ),
-          ),
-        if (widget.isEditable && !isEditing)
-          IconButton(
-            onPressed: () {
-              setState(() {
-                isEditing = true;
-              });
-              focusNode.requestFocus();
-            },
-            icon: const Icon(Icons.edit),
-          ),
-      ],
+          if (widget.isEditable && !isEditing)
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isEditing = true;
+                });
+                focusNode.requestFocus();
+              },
+              icon: const Icon(Icons.edit),
+            ),
+        ],
+      ),
     );
 
     // If dismissible key provided - wrap into Dismissible
