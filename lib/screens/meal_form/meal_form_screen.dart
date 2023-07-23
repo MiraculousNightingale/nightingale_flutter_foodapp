@@ -133,17 +133,34 @@ class _MealFormScreenState extends State<MealFormScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              if (meal.imageUrl.isNotEmpty)
-                SizedBox(
-                  height: 300,
-                  width: double.infinity,
-                  child: FadeInImage(
-                    height: 300,
-                    width: double.infinity,
-                    placeholder: MemoryImage(kTransparentImage),
-                    image: NetworkImage(meal.imageUrl),
-                  ),
-                ),
+              SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: meal.imageUrl.isNotEmpty
+                    ? FadeInImage(
+                        key: ValueKey(meal.imageUrl),
+                        placeholder: MemoryImage(kTransparentImage),
+                        image: NetworkImage(meal.imageUrl),
+                        fit: BoxFit.cover,
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Center(
+                          child: Text(
+                            'Can\'t load an image from this URL',
+                            style: theme.textTheme.titleLarge!.copyWith(
+                              color: theme.colorScheme.error,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          'No Image',
+                          style: theme.textTheme.titleLarge!.copyWith(
+                            color: theme.colorScheme.error,
+                          ),
+                        ),
+                      ),
+              ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -156,6 +173,11 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.onBackground,
                       ),
+                      onSubmitted: (value) {
+                        setState(() {
+                          meal = meal.copyWith(imageUrl: value);
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 25,
@@ -168,6 +190,11 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.onBackground,
                       ),
+                      onSubmitted: (value) {
+                        setState(() {
+                          meal = meal.copyWith(title: value);
+                        });
+                      },
                     ),
                     const SizedBox(
                       height: 25,
@@ -240,6 +267,14 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.onBackground,
                       ),
+                      onSubmitted: (value) {
+                        final newDuration = int.tryParse(value);
+                        if (newDuration != null) {
+                          setState(() {
+                            meal = meal.copyWith(duration: newDuration);
+                          });
+                        }
+                      },
                     ),
                     const SizedBox(
                       height: 15,
