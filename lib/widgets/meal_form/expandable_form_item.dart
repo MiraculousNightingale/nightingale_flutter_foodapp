@@ -111,11 +111,7 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
         background: Container(
           color: theme.colorScheme.error,
         ),
-        onDismissed: (direction) {
-          print('$currentValue dismissed');
-          // TODO: assign onDismissed instead of calling it anonymously
-          if (widget.onDismissed != null) widget.onDismissed!(direction);
-        },
+        onDismissed: widget.onDismissed,
         child: expandableFormItem,
       );
     }

@@ -32,7 +32,8 @@ class _MealFormStringExpandableScreenState
   void initState() {
     super.initState();
     controllers = [
-      for (final value in widget.initialValues) TextEditingController(),
+      for (final value in widget.initialValues)
+        TextEditingController()..text = value,
     ];
   }
 
@@ -67,7 +68,12 @@ class _MealFormStringExpandableScreenState
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  controllers.insert(0, TextEditingController());
+                  controllers[0].text = 'New item';
+                });
+              },
               icon: const Icon(Icons.add),
             ),
           ],
@@ -79,8 +85,14 @@ class _MealFormStringExpandableScreenState
             children: [
               for (var i = 0; i < controllers.length; i++)
                 ExpandableFormItem(
-                  dismissibleKey: ValueKey(i),
-                  initialValue: widget.initialValues[i],
+                  dismissibleKey: ValueKey(controllers[i]),
+                  onDismissed: (direction) {
+                    setState(() {
+                      final removedController = controllers.removeAt(i);
+                      removedController.dispose();
+                    });
+                  },
+                  initialValue: controllers[i].text,
                   controller: controllers[i],
                 ),
             ],
