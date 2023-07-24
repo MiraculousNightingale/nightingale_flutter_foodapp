@@ -14,18 +14,27 @@ class MealManagementListItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final mealsNotifier = ref.read(mealsProvider.notifier);
+    final circularRadius = 15.0;
+    final padding = const EdgeInsets.symmetric(vertical: 10);
     return Material(
       child: Dismissible(
-        key: UniqueKey(),
+        direction: DismissDirection.endToStart,
+        key: ValueKey(meal),
         onDismissed: (direction) => mealsNotifier.removeMeal(meal.id),
-        background: Container(
-          color: theme.colorScheme.background,
+        background: Padding(
+          padding: padding,
+          child: Container(
+            decoration: BoxDecoration(
+              color: theme.colorScheme.error,
+              borderRadius: BorderRadius.circular(circularRadius),
+            ),
+          ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: padding,
           child: ListTile(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(circularRadius)),
             tileColor: theme.colorScheme.onBackground.withOpacity(0.1),
             title: Text(
               meal.title,
@@ -41,7 +50,7 @@ class MealManagementListItem extends ConsumerWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => MealFormScreen(initialMeal: meal),
+                    builder: (context) => MealFormScreen(meal: meal),
                   ),
                 );
               },

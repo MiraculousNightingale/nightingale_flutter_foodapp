@@ -18,6 +18,13 @@ class MealsNotifier extends StateNotifier<List<Meal>> {
     state = [...state, meal];
   }
 
+  // Seems unusual when you don't provide an id as first param
+  // but the id shouldn't change if you update anyway.
+  void updateMeal(Meal newMeal) {
+    final index = state.indexWhere((element) => element.id == newMeal.id);
+    state = [...state..[index] = newMeal];
+  }
+
   void removeMeal(String mealId) {
     // state = state.where((element) => element.id != mealId).toList();
     state = [...state.where((element) => element.id != mealId)];

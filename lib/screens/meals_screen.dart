@@ -20,9 +20,7 @@ class MealsScreen extends ConsumerWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => MealFormScreen(
-                    initialMeal: Meal.empty(),
-                  ),
+                  builder: (context) => MealFormScreen(),
                 ),
               );
             },
@@ -31,6 +29,7 @@ class MealsScreen extends ConsumerWidget {
         ],
       ),
       body: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         itemCount: meals.length,
         itemBuilder: (context, index) =>
             MealManagementListItem(meal: meals[index]),

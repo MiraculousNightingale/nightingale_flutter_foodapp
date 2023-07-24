@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nightingale_flutter_foodapp/dummy_data%20(1).dart';
+import 'package:nightingale_flutter_foodapp/providers/meals_provider.dart';
 import 'package:nightingale_flutter_foodapp/screens/meal_form/meal_form_category_expandable.dart';
 import 'package:nightingale_flutter_foodapp/screens/meal_form/meal_form_string_expandable_screen.dart';
 import 'package:nightingale_flutter_foodapp/widgets/meal_form/expandable_form_container.dart';
@@ -10,20 +12,24 @@ import 'package:transparent_image/transparent_image.dart';
 
 import '../../models/meal.dart';
 
-class MealFormScreen extends StatefulWidget {
-  const MealFormScreen({super.key, required this.initialMeal});
+class MealFormScreen extends ConsumerStatefulWidget {
+  MealFormScreen({super.key, Meal? meal})
+      : initialMeal = meal ?? Meal.empty(),
+        isCreating = meal == null;
 
   final Meal initialMeal;
+  final bool isCreating;
+  //is edit or create boolean
 
   static const ingredientsHeroTag = 'ingredients-expandable';
   static const stepsHeroTag = 'steps-expandable';
   static const categoryHeroTag = 'category-expandable';
 
   @override
-  State<MealFormScreen> createState() => _MealFormScreenState();
+  ConsumerState<MealFormScreen> createState() => _MealFormScreenState();
 }
 
-class _MealFormScreenState extends State<MealFormScreen> {
+class _MealFormScreenState extends ConsumerState<MealFormScreen> {
   final imageUrlController = TextEditingController();
   final titleController = TextEditingController();
   final durationController = TextEditingController();
@@ -121,9 +127,14 @@ class _MealFormScreenState extends State<MealFormScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final mealsNotifier = ref.read(mealsProvider.notifier);
     return WillPopScope(
       onWillPop: () async {
-        print('should save meal');
+        if (widget.isCreating) {
+          mealsNotifier.addMeal(meal);
+        } else {
+          mealsNotifier.updateMeal(meal);
+        }
         return true;
       },
       child: Scaffold(
@@ -173,6 +184,13 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.onBackground,
                       ),
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        setState(() {
+                          meal =
+                              meal.copyWith(imageUrl: imageUrlController.text);
+                        });
+                      },
                       onSubmitted: (value) {
                         setState(() {
                           meal = meal.copyWith(imageUrl: value);
@@ -190,6 +208,12 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.onBackground,
                       ),
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        setState(() {
+                          meal = meal.copyWith(title: titleController.text);
+                        });
+                      },
                       onSubmitted: (value) {
                         setState(() {
                           meal = meal.copyWith(title: value);
@@ -267,6 +291,16 @@ class _MealFormScreenState extends State<MealFormScreen> {
                       style: theme.textTheme.bodyLarge!.copyWith(
                         color: theme.colorScheme.onBackground,
                       ),
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        final newDuration =
+                            int.tryParse(durationController.text);
+                        if (newDuration != null) {
+                          setState(() {
+                            meal = meal.copyWith(duration: newDuration);
+                          });
+                        }
+                      },
                       onSubmitted: (value) {
                         final newDuration = int.tryParse(value);
                         if (newDuration != null) {
