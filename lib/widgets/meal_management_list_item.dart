@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nightingale_flutter_foodapp/providers/meals_provider.dart';
+import 'package:nightingale_flutter_foodapp/screens/meal_details_screen.dart';
 import 'package:nightingale_flutter_foodapp/screens/meal_form/meal_form_screen.dart';
 
 import '../models/meal.dart';
@@ -14,8 +15,8 @@ class MealManagementListItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final mealsNotifier = ref.read(mealsProvider.notifier);
-    final circularRadius = 15.0;
-    final padding = const EdgeInsets.symmetric(vertical: 10);
+    const circularRadius = 15.0;
+    const padding = EdgeInsets.symmetric(vertical: 10);
     return Material(
       child: Dismissible(
         direction: DismissDirection.endToStart,
@@ -24,9 +25,17 @@ class MealManagementListItem extends ConsumerWidget {
         background: Padding(
           padding: padding,
           child: Container(
+            alignment: Alignment.centerRight,
             decoration: BoxDecoration(
               color: theme.colorScheme.error,
               borderRadius: BorderRadius.circular(circularRadius),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Icon(
+                Icons.delete,
+                color: theme.colorScheme.onError,
+              ),
             ),
           ),
         ),
@@ -43,7 +52,13 @@ class MealManagementListItem extends ConsumerWidget {
               ),
             ),
             leading: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => MealDetailsScreen(meal: meal),
+                  ),
+                );
+              },
               icon: const Icon(Icons.remove_red_eye_outlined),
             ),
             trailing: IconButton(

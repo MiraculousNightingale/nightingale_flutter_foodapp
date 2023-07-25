@@ -109,7 +109,15 @@ class _ExpandableFormItemState extends State<ExpandableFormItem> {
         direction:
             isEditing ? DismissDirection.none : DismissDirection.endToStart,
         background: Container(
+          alignment: Alignment.centerRight,
           color: theme.colorScheme.error,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Icon(
+              Icons.delete,
+              color: theme.colorScheme.onError,
+            ),
+          ),
         ),
         onDismissed: widget.onDismissed,
         child: expandableFormItem,
