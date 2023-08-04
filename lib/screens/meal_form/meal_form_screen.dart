@@ -34,12 +34,12 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
   final titleController = TextEditingController();
   final durationController = TextEditingController();
   late Meal meal;
-  late Affordability affordability;
-  late Complexity complexity;
-  late bool isGlutenFree;
-  late bool isLactoseFree;
-  late bool isVegan;
-  late bool isVegetarian;
+  // late Affordability affordability;
+  // late Complexity complexity;
+  // late bool isGlutenFree;
+  // late bool isLactoseFree;
+  // late bool isVegan;
+  // late bool isVegetarian;
 
   @override
   void initState() {
@@ -48,12 +48,12 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
     titleController.text = meal.title;
     imageUrlController.text = meal.imageUrl;
     durationController.text = meal.duration.toString();
-    affordability = meal.affordability;
-    complexity = meal.complexity;
-    isGlutenFree = meal.isGlutenFree;
-    isLactoseFree = meal.isLactoseFree;
-    isVegan = meal.isVegan;
-    isVegetarian = meal.isVegetarian;
+    // affordability = meal.affordability;
+    // complexity = meal.complexity;
+    // isGlutenFree = meal.isGlutenFree;
+    // isLactoseFree = meal.isLactoseFree;
+    // isVegan = meal.isVegan;
+    // isVegetarian = meal.isVegetarian;
   }
 
   @override
@@ -315,18 +315,24 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
                     ),
                     MealFormEnumDropdown<Complexity>(
                       label: 'Complexity',
-                      selectedValue: complexity,
+                      selectedValue: meal.complexity,
                       allValues: Complexity.values,
                       onChanged: (selectedValue) => setState(() {
-                        complexity = selectedValue ?? Complexity.none;
+                        // complexity = selectedValue ?? Complexity.none;
+                        meal = meal.copyWith(
+                          complexity: selectedValue ?? Complexity.none,
+                        );
                       }),
                     ),
                     MealFormEnumDropdown<Affordability>(
                       label: 'Affordability',
-                      selectedValue: affordability,
+                      selectedValue: meal.affordability,
                       allValues: Affordability.values,
                       onChanged: (selectedValue) => setState(() {
-                        affordability = selectedValue ?? Affordability.none;
+                        // affordability = selectedValue ?? Affordability.none;
+                        meal = meal.copyWith(
+                          affordability: selectedValue ?? Affordability.none,
+                        );
                       }),
                     ),
                     const SizedBox(
@@ -334,30 +340,42 @@ class _MealFormScreenState extends ConsumerState<MealFormScreen> {
                     ),
                     MealFormSwitch(
                       label: 'Gluten Free',
-                      value: isGlutenFree,
+                      value: meal.isGlutenFree,
                       onChanged: (value) => setState(() {
-                        isGlutenFree = value;
+                        // isGlutenFree = value;
+                        meal = meal.copyWith(
+                          isGlutenFree: value,
+                        );
                       }),
                     ),
                     MealFormSwitch(
                       label: 'Lactose Free',
-                      value: isLactoseFree,
+                      value: meal.isLactoseFree,
                       onChanged: (value) => setState(() {
-                        isLactoseFree = value;
+                        // isLactoseFree = value;
+                        meal = meal.copyWith(
+                          isLactoseFree: value,
+                        );
                       }),
                     ),
                     MealFormSwitch(
                       label: 'Vegan',
-                      value: isVegan,
+                      value: meal.isVegan,
                       onChanged: (value) => setState(() {
-                        isVegan = value;
+                        // isVegan = value;
+                        meal = meal.copyWith(
+                          isVegan: value,
+                        );
                       }),
                     ),
                     MealFormSwitch(
                       label: 'Vegetarian',
-                      value: isVegetarian,
+                      value: meal.isVegetarian,
                       onChanged: (value) => setState(() {
-                        isVegetarian = value;
+                        // isVegetarian = value;
+                        meal = meal.copyWith(
+                          isVegetarian: value,
+                        );
                       }),
                     ),
                   ],
