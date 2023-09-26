@@ -1,6 +1,6 @@
 # Food App
 
-An application with food recipies, which I created to practice Flutter development.
+An application with food recipes, which I created to practice Flutter development.
 
 Generally based on the udemy course which I followed, but extended with some of my own features. 
 
